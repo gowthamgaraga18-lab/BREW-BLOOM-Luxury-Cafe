@@ -1,69 +1,29 @@
-name: Deploy BREW & BLOOM to GitHub Pages
+name: Inspect BREW & BLOOM project
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
-  build:
+  inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Extract website archive
+      - uses: actions/checkout@v4
+      - name: Extract and inspect project
         shell: bash
         run: |
           set -euo pipefail
           archive="$(find . -maxdepth 1 -type f \( -name '*.tar.gz' -o -name '*.tgz' -o -name '*.tar' \) -print -quit)"
-          if [ -z "$archive" ]; then
-            echo "No TAR archive found in repository root."
-            exit 1
-          fi
+          test -n "$archive"
           mkdir extracted
-          if tar -tzf "$archive" >/dev/null 2>&1; then
-            tar -xzf "$archive" -C extracted
-          else
-            tar -xf "$archive" -C extracted
-          fi
-          index_file="$(find extracted -type f -name index.html -print -quit)"
-          if [ -z "$index_file" ]; then
-            echo "Could not find index.html in the extracted archive."
-            find extracted -maxdepth 3 -type f | head -80
-            exit 1
-          fi
-          website_dir="$(dirname "$index_file")"
-          mkdir -p _site
-          cp -a "$website_dir"/. _site/
-          test -f _site/index.html
-          echo "Website files prepared:"
-          find _site -maxdepth 2 -type f | head -80
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          if tar -tzf "$archive" >/dev/null 2>&1; then tar -xzf "$archive" -C extracted; else tar -xf "$archive" -C extracted; fi
+          root="$(find extracted -name package.json -print -quit | xargs dirname)"
+          echo "PROJECT_ROOT=$root"
+          echo "----- package.json -----"
+          cat "$root/package.json"
+          echo "----- next.config -----"
+          for f in "$root"/next.config.*; do [ -f "$f" ] && cat "$f"; done
+          echo "----- README -----"
+          if [ -f "$root/README.md" ]; then head -120 "$root/README.md"; fi
