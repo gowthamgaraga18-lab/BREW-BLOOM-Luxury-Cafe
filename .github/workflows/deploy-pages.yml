@@ -37,10 +37,8 @@ jobs:
           mkdir extracted
           if tar -tzf "$archive" >/dev/null 2>&1; then
             listing="$(tar -tzf "$archive")"
-            tar -xzf "$archive" -C extracted --no-same-owner --no-same-permissions
           else
             listing="$(tar -tf "$archive")"
-            tar -xf "$archive" -C extracted --no-same-owner --no-same-permissions
           fi
 
           while IFS= read -r item; do
@@ -51,6 +49,12 @@ jobs:
                 ;;
             esac
           done <<< "$listing"
+
+          if tar -tzf "$archive" >/dev/null 2>&1; then
+            tar -xzf "$archive" -C extracted --no-same-owner --no-same-permissions
+          else
+            tar -xf "$archive" -C extracted --no-same-owner --no-same-permissions
+          fi
 
           project_root="$(find extracted -name package.json -not -path '*/node_modules/*' -print -quit | xargs dirname)"
           if [ -z "$project_root" ] || [ ! -f "$project_root/next.config.ts" ]; then
