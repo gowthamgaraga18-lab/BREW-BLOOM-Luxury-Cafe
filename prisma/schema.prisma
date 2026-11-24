@@ -1,0 +1,169 @@
+// Brew & Bloom — Prisma schema (SQLite)
+// Relational models with foreign keys, indexes, and cascade rules.
+// Authorization (equivalent to Supabase RLS) is enforced server-side in API routes.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  order       Int       @default(0)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  price       Int // INR, whole rupees
+  description String
+  image       String
+  gallery     String? // JSON-encoded string array of image URLs
+  available   Boolean     @default(true)
+  vegetarian  Boolean     @default(true)
+  featured    Boolean     @default(false)
+  rating      Float       @default(4.8)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+
+  @@index([categoryId])
+  @@index([featured])
+  @@index([available])
+  @@index([slug])
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("admin") // admin | superadmin
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+
+  @@index([email])
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  orderNumber    String      @unique
+  customerName   String
+  email          String
+  phone          String
+  fulfillment    String // delivery | pickup
+  address        String?
+  instructions   String?
+  subtotal       Int
+  discount       Int         @default(0)
+  deliveryCharge Int         @default(0)
+  total          Int
+  status         String      @default("pending") // pending | confirmed | preparing | ready | completed | cancelled
+  paymentStatus  String      @default("unpaid") // unpaid | paid | refunded
+  paymentMode    String      @default("cod") // cod | card | upi (test mode)
+  customerId     String?
+  customer       Customer?   @relation(fields: [customerId], references: [id])
+  items          OrderItem[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  productName String
+  price       Int
+  quantity    Int
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Reservation {
+  id              String   @id @default(cuid())
+  name            String
+  email           String
+  phone           String
+  date            String // YYYY-MM-DD
+  time            String // HH:mm
+  guests          Int
+  specialRequests String?
+  status          String   @default("pending") // pending | confirmed | cancelled
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([date, time])
+  @@index([email])
+  @@index([status])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([read])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model DiscountCode {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  percentage  Int? // e.g. 10 = 10% off
+  flatAmount  Int? // flat INR off
+  active      Boolean   @default(true)
+  expiresAt   DateTime?
+  minSubtotal Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  @@index([code])
+}
+
+model SiteSettings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}

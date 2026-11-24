@@ -1,0 +1,384 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  BREW & BLOOM — Bright Café Design Tokens
+  Vibrant palette: Amber, Coral, Matcha, Peach, Cream, Coffee
+*/
+
+@theme inline {
+  /* Bright brand color utilities -> bg-amber, text-coral, etc. */
+  --color-amber: #f59e0b;
+  --color-amber-dark: #d97706;
+  --color-coral: #f97316;
+  --color-coral-dark: #ea580c;
+  --color-matcha: #65a30d;
+  --color-matcha-bright: #84cc16;
+  --color-peach: #ffedd5;
+  --color-cream: #fffbf5;
+  --color-coffee: #2c1810;
+  --color-berry: #e11d48;
+  /* Legacy tones (still referenced by some sections) */
+  --color-espresso: #2c1810;
+  --color-chocolate: #452b20;
+  --color-mocha: #92400e;
+  --color-champagne: #d6be9b;
+  --color-ivory: #fffdf8;
+  --color-olive: #65a30d;
+
+  /* Semantic shadcn tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Fonts */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-editorial: var(--font-cormorant), Georgia, serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Bright brand */
+  --amber: #f59e0b;
+  --amber-dark: #d97706;
+  --coral: #f97316;
+  --coral-dark: #ea580c;
+  --matcha: #65a30d;
+  --matcha-bright: #84cc16;
+  --peach: #ffedd5;
+  --cream: #fffbf5;
+  --coffee: #2c1810;
+  --berry: #e11d48;
+  --espresso: #2c1810;
+  --chocolate: #452b20;
+  --mocha: #92400e;
+  --champagne: #d6be9b;
+  --ivory: #fffdf8;
+  --olive: #65a30d;
+
+  /* Bright light theme */
+  --background: #fffbf5;            /* cream */
+  --foreground: #2c1810;            /* coffee */
+  --card: #ffffff;                  /* pure white */
+  --card-foreground: #2c1810;
+  --popover: #ffffff;
+  --popover-foreground: #2c1810;
+  --primary: #f59e0b;               /* amber */
+  --primary-foreground: #ffffff;
+  --secondary: #ffedd5;             /* peach */
+  --secondary-foreground: #92400e;
+  --muted: #fef3e2;
+  --muted-foreground: #92400e;      /* amber-brown */
+  --accent: #65a30d;                /* matcha */
+  --accent-foreground: #ffffff;
+  --destructive: #e11d48;
+  --destructive-foreground: #ffffff;
+  --border: #f0e4d3;
+  --input: #f0e4d3;
+  --ring: #f59e0b;
+  --chart-1: #f59e0b;
+  --chart-2: #f97316;
+  --chart-3: #65a30d;
+  --chart-4: #e11d48;
+  --chart-5: #d6be9b;
+
+  /* sidebar (admin) — warm coffee with amber accent */
+  --sidebar: #2c1810;
+  --sidebar-foreground: #fffbf5;
+  --sidebar-primary: #f59e0b;
+  --sidebar-primary-foreground: #2c1810;
+  --sidebar-accent: #3a2418;
+  --sidebar-accent-foreground: #fffbf5;
+  --sidebar-border: rgba(245, 158, 11, 0.18);
+  --sidebar-ring: #f59e0b;
+}
+
+.dark {
+  --background: #1c130f;
+  --foreground: #fffbf5;
+  --card: #2c1810;
+  --card-foreground: #fffbf5;
+  --popover: #2c1810;
+  --popover-foreground: #fffbf5;
+  --primary: #f59e0b;
+  --primary-foreground: #2c1810;
+  --secondary: #3a2418;
+  --secondary-foreground: #fffbf5;
+  --muted: #34241c;
+  --muted-foreground: #fbbf24;
+  --accent: #84cc16;
+  --accent-foreground: #1c130f;
+  --destructive: #f43f5e;
+  --destructive-foreground: #1c130f;
+  --border: rgba(245, 158, 11, 0.16);
+  --input: rgba(245, 158, 11, 0.22);
+  --ring: #f59e0b;
+
+  --sidebar: #160f0b;
+  --sidebar-foreground: #fffbf5;
+  --sidebar-primary: #f59e0b;
+  --sidebar-primary-foreground: #2c1810;
+  --sidebar-accent: #2c1810;
+  --sidebar-accent-foreground: #fffbf5;
+  --sidebar-border: rgba(245, 158, 11, 0.14);
+  --sidebar-ring: #f59e0b;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  ::selection {
+    background: var(--amber);
+    color: #ffffff;
+  }
+}
+
+/* Typography — plain (unlayered) CSS so it always applies and wins over layered resets. */
+body {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv01", "cv02";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3, h4 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.font-display { font-family: var(--font-playfair), Georgia, serif; }
+.font-editorial { font-family: var(--font-cormorant), Georgia, serif; }
+.font-sans { font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif; }
+
+/* ===== Creative gradient buttons (plain CSS, always apply) ===== */
+.btn-grad {
+  background-image: linear-gradient(110deg, var(--amber) 0%, var(--coral) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  transition: background-position 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 22px -8px rgba(249, 115, 22, 0.55);
+}
+.btn-grad:hover {
+  background-position: 100% 0%;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 14px 32px -8px rgba(249, 115, 22, 0.7);
+}
+.btn-grad:active { transform: translateY(0) scale(0.99); }
+
+.btn-grad-matcha {
+  background-image: linear-gradient(110deg, var(--matcha-bright) 0%, var(--matcha) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  transition: background-position 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 22px -8px rgba(101, 163, 13, 0.55);
+}
+.btn-grad-matcha:hover {
+  background-position: 100% 0%;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 14px 32px -8px rgba(101, 163, 13, 0.7);
+}
+
+/* Shine sweep overlay (use on a relatively-positioned, overflow-hidden button) */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%);
+  transform: translateX(-130%);
+  transition: transform 0.7s ease;
+  pointer-events: none;
+}
+.btn-shine:hover::after { transform: translateX(130%); }
+
+/* Gradient text utility */
+.text-grad {
+  background-image: linear-gradient(110deg, var(--amber), var(--coral));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-grad-matcha {
+  background-image: linear-gradient(110deg, var(--matcha-bright), var(--matcha));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Typography utilities */
+@layer utilities {
+  .tracking-luxe { letter-spacing: 0.28em; }
+  .tracking-wide-2 { letter-spacing: 0.18em; }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--amber-dark);
+  }
+
+  .container-luxe {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-luxe { padding-inline: 2rem; }
+  }
+  @media (min-width: 1280px) {
+    .container-luxe { padding-inline: 2.5rem; }
+  }
+
+  .hairline {
+    background-image: linear-gradient(to right, transparent, var(--amber), transparent);
+    height: 1px;
+  }
+
+  .glass-dark {
+    background: rgba(28, 19, 15, 0.55);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+  .glass-light {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+  }
+
+  .shadow-luxe {
+    box-shadow: 0 1px 2px rgba(44, 24, 16, 0.05), 0 12px 40px -12px rgba(245, 158, 11, 0.18);
+  }
+  .shadow-luxe-lg {
+    box-shadow: 0 2px 6px rgba(44, 24, 16, 0.06), 0 30px 70px -22px rgba(249, 115, 22, 0.32);
+  }
+  .shadow-glow-amber {
+    box-shadow: 0 10px 30px -8px rgba(245, 158, 11, 0.45);
+  }
+}
+
+/* Custom scrollbar */
+@layer base {
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--peach); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--amber), var(--coral));
+    border-radius: 999px;
+    border: 2px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(var(--coral), var(--amber)); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Marquee for promotions */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
+
+/* Slow zoom for hero */
+@keyframes slow-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+.animate-slow-zoom {
+  animation: slow-zoom 18s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-slow-zoom { animation: none; }
+}
+
+/* Floating blob animation for decorative backgrounds */
+@keyframes float-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -30px) scale(1.05); }
+  66% { transform: translate(-15px, 20px) scale(0.97); }
+}
+.animate-float-blob {
+  animation: float-blob 14s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-blob { animation: none; }
+}
+
+/* ===== Decorative gradient lines / dividers ===== */
+.divider-grad {
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent 0%, var(--amber) 22%, var(--coral) 50%, var(--matcha-bright) 78%, transparent 100%);
+}
+.divider-grad-vert {
+  width: 2px;
+  background: linear-gradient(180deg, transparent 0%, var(--amber) 30%, var(--coral) 70%, transparent 100%);
+}
+/* Thin animated line that draws in on scroll */
+.line-draw {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--amber), var(--coral));
+  transform-origin: left center;
+}
+/* Marquee strip */
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+}
+.marquee-track > * { padding-inline: 2rem; }
